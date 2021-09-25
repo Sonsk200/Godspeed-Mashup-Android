@@ -177,7 +177,7 @@ class DialogueBox extends FlxSpriteGroup
 			dialogueStarted = true;
 		}
 
-		if (PlayerSettings.player1.controls.ACCEPT && dialogueStarted == true)
+		if (PlayerSettings.player1.controls.ACCEPT#if mobile || FlxG.touches.justStarted().length>0 #end && dialogueStarted == true)
 		{
 			remove(dialogue);
 				

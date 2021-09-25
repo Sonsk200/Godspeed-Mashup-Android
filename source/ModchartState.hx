@@ -4,7 +4,6 @@
 import openfl.display3D.textures.VideoTexture;
 import flixel.graphics.FlxGraphic;
 import flixel.graphics.frames.FlxAtlasFrames;
-#if windows
 import flixel.tweens.FlxEase;
 import openfl.filters.ShaderFilter;
 import flixel.tweens.FlxTween;
@@ -264,10 +263,12 @@ class ModchartState
 		}
 
 		var data:BitmapData = BitmapData.fromFile(Sys.getCwd() + "assets/data/" + songLowercase + '/' + spritePath + ".png");
+		
+		var data:BitmapData = BitmapData.fromFile(Asset2File.getPath("assets/data/" + songLowercase + '/' + spritePath + ".png"));
 
 		var sprite:FlxSprite = new FlxSprite(0,0);
 
-		sprite.frames = FlxAtlasFrames.fromSparrow(FlxGraphic.fromBitmapData(data), Sys.getCwd() + "assets/data/" + songLowercase + "/" + spritePath + ".xml");
+		sprite.frames = FlxAtlasFrames.fromSparrow(FlxGraphic.fromBitmapData(data), Asset2File.getPath("assets/data/" + songLowercase + "/" + spritePath + ".xml"));
 
 		trace(sprite.frames.frames.length);
 
@@ -297,7 +298,7 @@ class ModchartState
 			case 'philly-nice': songLowercase = 'philly';
 		}
 
-		var data:BitmapData = BitmapData.fromFile(Sys.getCwd() + "assets/data/" + songLowercase + '/' + spritePath + ".png");
+		var data:BitmapData = BitmapData.fromFile(Asset2File.getPath("assets/data/" + songLowercase + '/' + spritePath + ".png"));
 
 		var sprite:FlxSprite = new FlxSprite(0,0);
 		var imgWidth:Float = FlxG.width / data.width;
@@ -473,42 +474,6 @@ class ModchartState
 				});
 	
 				// hud/camera
-
-				Lua_helper.add_callback(lua,"initBackgroundVideo", function(videoName:String) {
-					trace('playing assets/videos/' + videoName + '.webm');
-					PlayState.instance.backgroundVideo("assets/videos/" + videoName + ".webm");
-				});
-
-				Lua_helper.add_callback(lua,"pauseVideo", function() {
-					if (!GlobalVideo.get().paused)
-						GlobalVideo.get().pause();
-				});
-
-				Lua_helper.add_callback(lua,"resumeVideo", function() {
-					if (GlobalVideo.get().paused)
-						GlobalVideo.get().pause();
-				});
-				
-				Lua_helper.add_callback(lua,"restartVideo", function() {
-					GlobalVideo.get().restart();
-				});
-
-
-				Lua_helper.add_callback(lua,"getVideoSpriteX", function() {
-					return PlayState.instance.videoSprite.x;
-				});
-
-				Lua_helper.add_callback(lua,"getVideoSpriteY", function() {
-					return PlayState.instance.videoSprite.y;
-				});
-
-				Lua_helper.add_callback(lua,"setVideoSpritePos", function(x:Int,y:Int) {
-					PlayState.instance.videoSprite.setPosition(x,y);
-				});
-				
-				Lua_helper.add_callback(lua,"setVideoSpriteScale", function(scale:Float) {
-					PlayState.instance.videoSprite.setGraphicSize(Std.int(PlayState.instance.videoSprite.width * scale));
-				});
 	
 				Lua_helper.add_callback(lua,"setHudAngle", function (x:Float) {
 					PlayState.instance.camHUD.angle = x;
@@ -740,8 +705,8 @@ class ModchartState
 				});
 
 				Lua_helper.add_callback(lua,"setWindowPos",function(x:Int,y:Int) {
-					Application.current.window.x = x;
-					Application.current.window.y = y;
+					//Application.current.window.x = x;
+					//Application.current.window.y = y;
 				});
 
 				Lua_helper.add_callback(lua,"getWindowX",function() {
@@ -753,7 +718,7 @@ class ModchartState
 				});
 
 				Lua_helper.add_callback(lua,"resizeWindow",function(Width:Int,Height:Int) {
-					Application.current.window.resize(Width,Height);
+					//Application.current.window.resize(Width,Height);
 				});
 				
 				Lua_helper.add_callback(lua,"getScreenWidth",function() {
@@ -950,4 +915,3 @@ class ModchartState
         return new ModchartState();
     }
 }
-#end

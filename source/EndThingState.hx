@@ -18,7 +18,7 @@ class EndThingState extends MusicBeatState
 	override function update(elapsed:Float) 
 	{
 		super.update(elapsed);
-		if (FlxG.keys.justPressed.ENTER){
+		if (FlxG.keys.justPressed.ENTER#if mobile || FlxG.touches.justStarted().length>0 #end){
 			FlxG.switchState(new MainMenuState());
 		}
 	}

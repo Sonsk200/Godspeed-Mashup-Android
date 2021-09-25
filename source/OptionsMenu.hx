@@ -38,11 +38,11 @@ class OptionsMenu extends MusicBeatState
 			new DownscrollOption("Change the layout of the strumline."),
 			new GhostTapOption("Ghost Tapping is when you tap a direction and it doesn't give you a miss."),
 			new Grace("Turn off the Grace timer for the real chad input"),
+			#if desktop		
 			new Judgement("Customize your Hit Timings (LEFT or RIGHT)"),
-			#if desktop
 			new FPSCapOption("Cap your FPS"),
-			#end
 			new ScrollSpeedOption("Change your scroll speed (1 = Chart dependent)"),
+			#end			
 			new InstantRespawn("Toggle if you instantly respawn after dying."),
 			new AccuracyDOption("Change how accuracy is calculated. (Accurate = Simple, Complex = Milisecond Based)"),
 			new ResetButtonOption("Toggle pressing R to gameover."),
@@ -52,32 +52,24 @@ class OptionsMenu extends MusicBeatState
 		new OptionCategory("Appearance", [
 			new DistractionsAndEffectsOption("Toggle stage distractions that can hinder your gameplay."),
 			new CamZoomOption("Toggle the camera zoom in-game."),
-			#if desktop
 			new RainbowFPSOption("Make the FPS Counter Rainbow"),
 			new AccuracyOption("Display accuracy information."),
 			new NPSDisplayOption("Shows your current Notes Per Second."),
 			new SongPositionOption("Show the songs current position (as a bar)"),
 			new CpuStrums("CPU's strumline lights up when a note hits it.")
-			#end
 		]),
 		
 		new OptionCategory("Misc", [
-			#if desktop
 			new FPSOption("Toggle the FPS Counter"),
-			#end
 			new FlashingLightsOption("Toggle flashing lights that can cause epileptic seizures and strain."),
 			new WatermarkOption("Enable and disable all watermarks from the engine."),
 			new AntialiasingOption("Toggle antialiasing, improving graphics quality at a slight performance penalty."),
 			new ScoreScreen("Show the score screen after the end of a song"),
 			new ShowInput("Display every single input in the score screen."),
 			new Optimization("No backgrounds, no characters, centered notes, no player 2."),
-			new GraphicLoading("On startup, cache every character. Significantly decrease load times. (HIGH MEMORY)"),
 			new BotPlay("Showcase your charts and mods with autoplay."),
 		]),
 		new OptionCategory("Saves and Data", [
-			#if desktop
-			new ReplayOption("View saved song replays."),
-			#end
 			new ResetScoreOption("Reset your score on all songs and weeks. This is irreversible!"),
 			new ResetSettings("Reset ALL your settings. This is irreversible!")
 		])
@@ -131,6 +123,10 @@ class OptionsMenu extends MusicBeatState
 
 		FlxTween.tween(versionShit,{y: FlxG.height - 18},2,{ease: FlxEase.elasticInOut});
 		FlxTween.tween(blackBorder,{y: FlxG.height - 18},2, {ease: FlxEase.elasticInOut});
+		
+		#if mobileC
+		addVirtualPad(UP_DOWN, A_B);
+		#end		
 
 		super.create();
 	}
@@ -180,9 +176,9 @@ class OptionsMenu extends MusicBeatState
 				}
 			}
 			
-			if (FlxG.keys.justPressed.UP)
+			if (controls.UP_P)
 				changeSelection(-1);
-			if (FlxG.keys.justPressed.DOWN)
+			if (controls.DOWN_P)
 				changeSelection(1);
 			
 			if (isCat)

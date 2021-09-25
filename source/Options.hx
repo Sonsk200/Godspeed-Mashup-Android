@@ -140,28 +140,6 @@ class CpuStrums extends Option
 	}
 
 }
-class GraphicLoading extends Option
-{
-	public function new(desc:String)
-	{
-		super();
-		description = desc;
-	}
-
-	public override function press():Bool
-	{
-		FlxG.save.data.cacheImages = !FlxG.save.data.cacheImages;
-		
-		display = updateDisplay();
-		return true;
-	}
-
-	private override function updateDisplay():String
-	{
-		return  FlxG.save.data.cacheImages ? "Preload Characters" : "Do not Preload Characters";
-	}
-
-}
 
 class DownscrollOption extends Option
 {
@@ -646,27 +624,6 @@ class NPSDisplayOption extends Option
 	private override function updateDisplay():String
 	{
 		return "NPS Display " + (!FlxG.save.data.npsDisplay ? "off" : "on");
-	}
-}
-
-class ReplayOption extends Option
-{
-	public function new(desc:String)
-	{
-		super();
-		description = desc;
-	}
-	
-	public override function press():Bool
-	{
-		trace("switch");
-		FlxG.switchState(new LoadReplayState());
-		return false;
-	}
-
-	private override function updateDisplay():String
-	{
-		return "Load replays";
 	}
 }
 

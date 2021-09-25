@@ -17,6 +17,7 @@ import flixel.text.FlxText;
 import flixel.tweens.FlxEase;
 import flixel.tweens.FlxTween;
 import flixel.util.FlxColor;
+import flixel.FlxCamera;
 
 class PauseSubState extends MusicBeatSubstate
 {
@@ -33,13 +34,6 @@ class PauseSubState extends MusicBeatSubstate
 	public function new(x:Float, y:Float)
 	{
 		super();
-
-		if (PlayState.instance.useVideo)
-		{
-			menuItems.remove("Resume");
-			if (GlobalVideo.get().playing)
-				GlobalVideo.get().pause();
-		}
 
 		pauseMusic = new FlxSound().loadEmbedded(Paths.music('breakfast'), true, true);
 		pauseMusic.volume = 0;
@@ -97,6 +91,15 @@ class PauseSubState extends MusicBeatSubstate
 		changeSelection();
 
 		cameras = [FlxG.cameras.list[FlxG.cameras.list.length - 1]];
+		
+		#if mobileC
+		addVirtualPad(UP_DOWN, A_B);
+		
+		var camcontrol = new FlxCamera();
+		FlxG.cameras.add(camcontrol);
+		camcontrol.bgColor.alpha = 0;
+		_virtualpad.cameras = [camcontrol];
+		#end
 	}
 
 	override function update(elapsed:Float)
@@ -106,9 +109,6 @@ class PauseSubState extends MusicBeatSubstate
 
 		super.update(elapsed);
 
-		if (PlayState.instance.useVideo)
-			menuItems.remove('Resume');
-
 		var gamepad:FlxGamepad = FlxG.gamepads.lastActive;
 
 		var upP = controls.UP_P;
@@ -117,14 +117,6 @@ class PauseSubState extends MusicBeatSubstate
 		var rightP = controls.RIGHT_P;
 		var accepted = controls.ACCEPT;
 		var oldOffset:Float = 0;
-
-		if (gamepad != null && KeyBinds.gamepad)
-		{
-			upP = gamepad.justPressed.DPAD_UP;
-			downP = gamepad.justPressed.DPAD_DOWN;
-			leftP = gamepad.justPressed.DPAD_LEFT;
-			rightP = gamepad.justPressed.DPAD_RIGHT;
-		}
 
 		// pre lowercasing the song name (update)
 		var songLowercase = StringTools.replace(PlayState.SONG.song, " ", "-").toLowerCase();
@@ -208,28 +200,9 @@ class PauseSubState extends MusicBeatSubstate
 				case "Resume":
 					close();
 				case "Restart Song":
-					if (PlayState.instance.useVideo)
-					{
-						GlobalVideo.get().stop();
-						PlayState.instance.remove(PlayState.instance.videoSprite);
-						PlayState.instance.removedVideo = true;
-					}
 					FlxG.resetState();
 				case "Exit to menu":
-					if (PlayState.instance.useVideo)
-					{
-						GlobalVideo.get().stop();
-						PlayState.instance.remove(PlayState.instance.videoSprite);
-						PlayState.instance.removedVideo = true;
-					}
-					if(PlayState.loadRep)
-					{
-						FlxG.save.data.botplay = false;
-						FlxG.save.data.scrollSpeed = 1;
-						FlxG.save.data.downscroll = false;
-					}
-					PlayState.loadRep = false;
-					#if windows
+					#if sys
 					if (PlayState.luaModchart != null)
 					{
 						PlayState.luaModchart.die();
