@@ -1,6 +1,5 @@
 package;
 
-import flixel.input.gamepad.FlxGamepad;
 import flash.text.TextField;
 import flixel.FlxG;
 import flixel.FlxSprite;
@@ -24,7 +23,7 @@ class FreeplayState extends MusicBeatState
 
 	var selector:FlxText;
 	var curSelected:Int = 0;
-	var curDifficulty:Int = 2;
+	var curDifficulty:Int = 1;
 
 	var scoreText:FlxText;
 	var comboText:FlxText;
@@ -42,19 +41,11 @@ class FreeplayState extends MusicBeatState
 	{
 		var initSonglist = CoolUtil.coolTextFile(Paths.txt('freeplaySonglist'));
 
-		//for (i in 0...initSonglist.length)
-		//{
-			//var data:Array<String> = initSonglist[i].split(':');
-			//songs.push(new SongMetadata(data[0], Std.parseInt(data[2]), data[1]));
-
-		//}
-
-		songs.push(new SongMetadata('godspeed', 7, 'shaggys'));
-
-		//songs.push(new SongMetadata('Tutorial', 0, 'gf'));
-
-		if (FlxG.save.data.beatenGodS)
-			songs.push(new SongMetadata('Where-Are-You', 7, 'shaggys'));
+		for (i in 0...initSonglist.length)
+		{
+			var data:Array<String> = initSonglist[i].split(':');
+			songs.push(new SongMetadata(data[0], Std.parseInt(data[2]), data[1]));
+		}
 
 		/* 
 			if (FlxG.sound.music != null)
@@ -63,6 +54,12 @@ class FreeplayState extends MusicBeatState
 					FlxG.sound.playMusic(Paths.music('freakyMenu'));
 			}
 		 */
+
+		if (FlxG.sound.music.volume == 0)
+		{
+			FlxG.sound.music.volume = 1;
+			FlxG.sound.playMusic(Paths.music('freakyMenu'));
+		}
 
 		 #if windows
 		 // Updating Discord Rich Presence
@@ -152,11 +149,7 @@ class FreeplayState extends MusicBeatState
 
 			trace(md);
 		 */
-		 
-		#if mobileC
-		addVirtualPad(FULL, A_B);
-		#end
-		
+
 		super.create();
 	}
 
@@ -201,28 +194,6 @@ class FreeplayState extends MusicBeatState
 		var downP = controls.DOWN_P;
 		var accepted = controls.ACCEPT;
 
-		var gamepad:FlxGamepad = FlxG.gamepads.lastActive;
-
-		if (gamepad != null)
-		{
-			if (gamepad.justPressed.DPAD_UP)
-			{
-				changeSelection(-1);
-			}
-			if (gamepad.justPressed.DPAD_DOWN)
-			{
-				changeSelection(1);
-			}
-			if (gamepad.justPressed.DPAD_LEFT)
-			{
-				changeDiff(-1);
-			}
-			if (gamepad.justPressed.DPAD_RIGHT)
-			{
-				changeDiff(1);
-			}
-		}
-
 		if (upP)
 		{
 			changeSelection(-1);
@@ -242,11 +213,6 @@ class FreeplayState extends MusicBeatState
 			FlxG.switchState(new MainMenuState());
 		}
 
-		if (songs[curSelected].songName == 'Where-Are-You' && curDifficulty != 2)
-			{
-				changeDiff(1);
-			}
-
 		if (accepted)
 		{
 			// adjusting the song name to be compatible
@@ -263,11 +229,22 @@ class FreeplayState extends MusicBeatState
 			trace(poop);
 			
 			PlayState.SONG = Song.loadFromJson(poop, songs[curSelected].songName);
-			PlayState.isStoryMode = true;
+			PlayState.isStoryMode = false;
+			PlayState.isBETADCIU = false;
+			PlayState.isBonus = false;
+			PlayState.isVitor = false;
+			PlayState.isNeonight = false;
 			PlayState.storyDifficulty = curDifficulty;
 			PlayState.storyWeek = songs[curSelected].week;
 			trace('CUR WEEK' + PlayState.storyWeek);
-			LoadingState.loadAndSwitchState(new PlayState());
+			if (Main.hiddenSongs.contains(songs[curSelected].songName.toLowerCase()) && !Main.isHidden || PlayState.SONG.song == 'Restore' && !Main.restoreUnlocked || PlayState.SONG.song == 'Deathmatch-Holo' && !Main.deathHolo)
+			{
+				LoadingState.loadAndSwitchState(new GoFindTheSecretState());
+			}
+			else
+			{
+				LoadingState.loadAndSwitchState(new PlayState());
+			}	
 		}
 	}
 
@@ -275,10 +252,10 @@ class FreeplayState extends MusicBeatState
 	{
 		curDifficulty += change;
 
-		if (curDifficulty < 1)
+		if (curDifficulty < 0)
 			curDifficulty = 2;
 		if (curDifficulty > 2)
-			curDifficulty = 1;
+			curDifficulty = 0;
 
 		// adjusting the highscore song name to be compatible (changeDiff)
 		var songHighscore = StringTools.replace(songs[curSelected].songName, " ", "-");
@@ -292,13 +269,15 @@ class FreeplayState extends MusicBeatState
 		combo = Highscore.getCombo(songHighscore, curDifficulty);
 		#end
 
-		if (songs[curSelected].songName == 'Where-Are-You')
-			{
-				diffText.text = 'UNFAIR';
-			}
-		else
-			diffText.text = CoolUtil.difficultyFromInt(curDifficulty).toUpperCase();
-
+		switch (curDifficulty)
+		{
+			case 0:
+				diffText.text = "EASY";
+			case 1:
+				diffText.text = 'NORMAL';
+			case 2:
+				diffText.text = "HARD";
+		}
 	}
 
 	function changeSelection(change:Int = 0)
@@ -327,23 +306,10 @@ class FreeplayState extends MusicBeatState
 			case 'Philly-Nice': songHighscore = 'Philly';
 		}
 
-		if (songs[curSelected].songName == 'Where-Are-You')
-			{
-				diffText.text = 'UNFAIR';
-			}
-		else
-			diffText.text = CoolUtil.difficultyFromInt(curDifficulty).toUpperCase();
-
-
-
 		#if !switch
 		intendedScore = Highscore.getScore(songHighscore, curDifficulty);
 		combo = Highscore.getCombo(songHighscore, curDifficulty);
 		// lerpScore = 0;
-		#end
-
-		#if PRELOAD_ALL
-		FlxG.sound.playMusic(Paths.inst(songs[curSelected].songName), 0);
 		#end
 
 		var bullShit:Int = 0;

@@ -1,6 +1,5 @@
 package;
 
-import flixel.input.gamepad.FlxGamepad;
 import openfl.Lib;
 #if windows
 import llua.Lua;
@@ -17,13 +16,12 @@ import flixel.text.FlxText;
 import flixel.tweens.FlxEase;
 import flixel.tweens.FlxTween;
 import flixel.util.FlxColor;
-import flixel.FlxCamera;
 
 class PauseSubState extends MusicBeatSubstate
 {
 	var grpMenuShit:FlxTypedGroup<Alphabet>;
 
-	var menuItems:Array<String> = ['Resume', 'Restart Song', 'Exit to menu'];
+	var menuItems:Array<String> = ['Resume', 'Restart Song', 'Restart with Cutscene', 'Exit to menu'];
 	var curSelected:Int = 0;
 
 	var pauseMusic:FlxSound;
@@ -54,7 +52,7 @@ class PauseSubState extends MusicBeatSubstate
 		add(levelInfo);
 
 		var levelDifficulty:FlxText = new FlxText(20, 15 + 32, 0, "", 32);
-		levelDifficulty.text += CoolUtil.difficultyFromInt(PlayState.storyDifficulty).toUpperCase();
+		levelDifficulty.text += CoolUtil.difficultyString();
 		levelDifficulty.scrollFactor.set();
 		levelDifficulty.setFormat(Paths.font('vcr.ttf'), 32);
 		levelDifficulty.updateHitbox();
@@ -91,15 +89,6 @@ class PauseSubState extends MusicBeatSubstate
 		changeSelection();
 
 		cameras = [FlxG.cameras.list[FlxG.cameras.list.length - 1]];
-		
-		#if mobileC
-		addVirtualPad(UP_DOWN, A_B);
-		
-		var camcontrol = new FlxCamera();
-		FlxG.cameras.add(camcontrol);
-		camcontrol.bgColor.alpha = 0;
-		_virtualpad.cameras = [camcontrol];
-		#end
 	}
 
 	override function update(elapsed:Float)
@@ -108,8 +97,6 @@ class PauseSubState extends MusicBeatSubstate
 			pauseMusic.volume += 0.01 * elapsed;
 
 		super.update(elapsed);
-
-		var gamepad:FlxGamepad = FlxG.gamepads.lastActive;
 
 		var upP = controls.UP_P;
 		var downP = controls.DOWN_P;
@@ -173,7 +160,7 @@ class PauseSubState extends MusicBeatSubstate
 				{
 					grpMenuShit.clear();
 
-					menuItems = ['Restart Song', 'Exit to menu'];
+					menuItems = ['Restart Song', 'Restart with Cutscene', 'Exit to menu'];
 
 					for (i in 0...menuItems.length)
 					{
@@ -191,7 +178,7 @@ class PauseSubState extends MusicBeatSubstate
 			}
 		#end
 
-		if (accepted)
+		if (accepted && !FlxG.keys.pressed.ALT)
 		{
 			var daSelected:String = menuItems[curSelected];
 
@@ -201,8 +188,44 @@ class PauseSubState extends MusicBeatSubstate
 					close();
 				case "Restart Song":
 					FlxG.resetState();
+					PlayState.showCutscene = false;
+					PlayState.isPixel = false;
+					if (PlayState.SONG.song == 'Takeover')
+					{
+						if (PlayState.downScrollEvent ==  true || PlayState.upScrollEvent ==  true)
+							FlxG.save.data.downscroll = !FlxG.save.data.downscroll;
+						else
+							FlxG.save.data.downscroll = FlxG.save.data.downscroll;
+					}
+				case "Restart with Cutscene":
+					FlxG.resetState();
+					PlayState.showCutscene = true;
+					PlayState.isPixel = false;
+					if (PlayState.SONG.song == 'Takeover')
+					{
+						if (PlayState.downScrollEvent ==  true || PlayState.upScrollEvent ==  true)
+							FlxG.save.data.downscroll = !FlxG.save.data.downscroll;
+						else
+							FlxG.save.data.downscroll = FlxG.save.data.downscroll;
+					}
 				case "Exit to menu":
-					#if sys
+					PlayState.isPixel = false;
+					PlayState.showCutscene = false;
+					if (PlayState.SONG.song == 'Takeover')
+					{
+						if (PlayState.downScrollEvent ==  true || PlayState.upScrollEvent ==  true)
+							FlxG.save.data.downscroll = !FlxG.save.data.downscroll;
+						else
+							FlxG.save.data.downscroll = FlxG.save.data.downscroll;
+					}	
+					if(PlayState.loadRep)
+					{
+						FlxG.save.data.botplay = false;
+						FlxG.save.data.scrollSpeed = 1;
+						FlxG.save.data.downscroll = false;
+					}
+					PlayState.loadRep = false;
+					#if windows
 					if (PlayState.luaModchart != null)
 					{
 						PlayState.luaModchart.die();

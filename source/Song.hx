@@ -4,6 +4,12 @@ import Section.SwagSection;
 import haxe.Json;
 import haxe.format.JsonParser;
 import lime.utils.Assets;
+#if sys
+import sys.io.File;
+import sys.FileSystem;
+import lime.system.System;
+import haxe.io.Path;
+#end
 
 using StringTools;
 
@@ -14,14 +20,16 @@ typedef SwagSong =
 	var bpm:Float;
 	var needsVoices:Bool;
 	var speed:Float;
-	var mania:Int;
 
 	var player1:String;
 	var player2:String;
 	var gfVersion:String;
 	var noteStyle:String;
+	var dadNoteStyle:String;
+	var bfNoteStyle:String;
 	var stage:String;
 	var validScore:Bool;
+	var mania:Int;
 }
 
 class Song
@@ -31,13 +39,15 @@ class Song
 	public var bpm:Float;
 	public var needsVoices:Bool = true;
 	public var speed:Float = 1;
-	public var mania:Int = 0;
 
 	public var player1:String = 'bf';
 	public var player2:String = 'dad';
-	public var gfVersion:String = '';
+	public var gfVersion:String = 'gf';
 	public var noteStyle:String = '';
+	public var dadNoteStyle:String = 'normal';
+	public var bfNoteStyle:String = 'normal';
 	public var stage:String = '';
+	public var mania:Int = 0;
 
 	public function new(song, notes, bpm)
 	{
@@ -55,11 +65,13 @@ class Song
 		switch (folderLowercase) {
 			case 'dad-battle': folderLowercase = 'dadbattle';
 			case 'philly-nice': folderLowercase = 'philly';
+			case 'scary-swings': folderLowercase = 'scary swings';
+			case 'my-sweets': folderLowercase = 'my sweets';
 		}
 		
 		trace('loading ' + folderLowercase + '/' + jsonInput.toLowerCase());
 
-		var rawJson = Assets.getText(Paths.json(folderLowercase + '/' + jsonInput.toLowerCase())).trim();
+		var rawJson = sys.io.File.getContent(Paths.json(folderLowercase + '/' + jsonInput.toLowerCase())).trim();
 
 		while (!rawJson.endsWith("}"))
 		{

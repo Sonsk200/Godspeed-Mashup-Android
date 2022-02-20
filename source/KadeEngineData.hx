@@ -1,4 +1,3 @@
-import flixel.input.gamepad.FlxGamepad;
 import openfl.Lib;
 import flixel.FlxG;
 
@@ -11,12 +10,6 @@ class KadeEngineData
 
 		if (FlxG.save.data.downscroll == null)
 			FlxG.save.data.downscroll = false;
-
-		if (FlxG.save.data.antialiasing == null)
-			FlxG.save.data.antialiasing = true;
-
-		if (FlxG.save.data.missSounds == null)
-			FlxG.save.data.missSounds = true;
 
 		if (FlxG.save.data.dfjk == null)
 			FlxG.save.data.dfjk = false;
@@ -75,9 +68,6 @@ class KadeEngineData
 
 		if (FlxG.save.data.resetButton == null)
 			FlxG.save.data.resetButton = false;
-
-		if (FlxG.save.data.InstantRespawn == null)
-			FlxG.save.data.InstantRespawn = false;
 		
 		if (FlxG.save.data.botplay == null)
 			FlxG.save.data.botplay = false;
@@ -93,31 +83,6 @@ class KadeEngineData
 
 		if (FlxG.save.data.camzoom == null)
 			FlxG.save.data.camzoom = true;
-
-		if (FlxG.save.data.scoreScreen == null)
-			FlxG.save.data.scoreScreen = true;
-
-		if (FlxG.save.data.inputShow == null)
-			FlxG.save.data.inputShow = false;
-
-		if (FlxG.save.data.optimize == null)
-			FlxG.save.data.optimize = false;
-
-		if (FlxG.save.data.oldtimings == null)
-			FlxG.save.data.oldtimings = false;
-
-		if (FlxG.save.data.coloredtypes == null)
-			FlxG.save.data.coloredtypes = true;
-
-		if (FlxG.save.data.popups == null)
-			FlxG.save.data.popups = true;
-
-		if (FlxG.save.data.beatenGodS == null)
-			FlxG.save.data.beatenGodS = false;
-		
-		var gamepad:FlxGamepad = FlxG.gamepads.lastActive;
-		
-		KeyBinds.gamepad = gamepad != null;
 
 		Conductor.recalculateTimings();
 		PlayerSettings.player1.controls.loadKeyBinds();

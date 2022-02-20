@@ -71,6 +71,7 @@ class GameOverState extends FlxTransitionableState
 		if (pressed && !fading)
 		{
 			fading = true;
+			PlayState.isPixel = false;
 			FlxG.sound.music.fadeOut(0.5, 0, function(twn:FlxTween)
 			{
 				FlxG.sound.music.stop();

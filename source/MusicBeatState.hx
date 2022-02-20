@@ -12,10 +12,7 @@ import flixel.addons.transition.FlxTransitionableState;
 import flixel.addons.ui.FlxUIState;
 import flixel.math.FlxRect;
 import flixel.util.FlxTimer;
-#if mobileC
-import ui.FlxVirtualPad;
-import flixel.input.actions.FlxActionInput;
-#end
+import flixel.FlxBasic;
 
 class MusicBeatState extends FlxUIState
 {
@@ -28,34 +25,8 @@ class MusicBeatState extends FlxUIState
 
 	inline function get_controls():Controls
 		return PlayerSettings.player1.controls;
-		
-	#if mobileC
-	var _virtualpad:FlxVirtualPad;
 
-	var trackedinputs:Array<FlxActionInput> = [];
-
-	// adding virtualpad to state
-	public function addVirtualPad(?DPad:FlxDPadMode, ?Action:FlxActionMode) {
-		_virtualpad = new FlxVirtualPad(DPad, Action);
-		_virtualpad.alpha = 0.75;
-		add(_virtualpad);
-		controls.setVirtualPad(_virtualpad, DPad, Action);
-		trackedinputs = controls.trackedinputs;
-		controls.trackedinputs = [];
-
-		#if android
-		controls.addAndroidBack();
-		#end
-	}
-	
-	override function destroy() {
-		controls.removeFlxInput(trackedinputs);
-
-		super.destroy();
-	}
-	#else
-	public function addVirtualPad(?DPad, ?Action){};
-	#end
+	private var assets:Array<FlxBasic> = [];
 
 	override function create()
 	{
@@ -112,6 +83,14 @@ class MusicBeatState extends FlxUIState
 	{
 		lastBeat = curStep;
 		curBeat = Math.floor(curStep / 4);
+	}
+
+	public function clean()
+	{
+		for (i in assets)
+		{
+			remove(i);
+		}
 	}
 
 	public static var currentColor = 0;

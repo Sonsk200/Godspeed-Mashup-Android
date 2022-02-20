@@ -10,13 +10,18 @@ class Highscore
 	public static var songCombos:Map<String, String> = new Map();
 	#else
 	public static var songScores:Map<String, Int> = new Map<String, Int>();
-	public static var songCombos:Map<String, String> = new Map<String, String>();
+	public static var songCombos:Map<String, Int> = new Map<String, String>();
 	#end
 
 
 	public static function saveScore(song:String, score:Int = 0, ?diff:Int = 0):Void
 	{
 		var daSong:String = formatSong(song, diff);
+
+
+		#if !switch
+		NGio.postScore(score, song);
+		#end
 
 		if(!FlxG.save.data.botplay)
 		{
@@ -49,6 +54,11 @@ class Highscore
 
 	public static function saveWeekScore(week:Int = 1, score:Int = 0, ?diff:Int = 0):Void
 	{
+
+		#if !switch
+		NGio.postScore(score, "Week " + week);
+		#end
+
 		if(!FlxG.save.data.botplay)
 		{
 			var daWeek:String = formatSong('week' + week, diff);
@@ -90,6 +100,12 @@ class Highscore
 			daSong += '-easy';
 		else if (diff == 2)
 			daSong += '-hard';
+		else if (diff == 3)
+			daSong += '-neo';
+		else if (diff == 4)
+			daSong += '-vitor';
+		else if (diff == 5)
+			daSong += '-guest';
 
 		return daSong;
 	}

@@ -10,10 +10,6 @@ import flixel.input.actions.FlxActionSet;
 import flixel.input.gamepad.FlxGamepadButton;
 import flixel.input.gamepad.FlxGamepadInputID;
 import flixel.input.keyboard.FlxKey;
-import ui.Hitbox;
-import ui.FlxVirtualPad;
-import flixel.ui.FlxButton;
-import flixel.group.FlxGroup;
 
 #if (haxe >= "4.0.0")
 enum abstract Action(String) to String from String
@@ -36,27 +32,44 @@ enum abstract Action(String) to String from String
 	var RESET = "reset";
 	var CHEAT = "cheat";
 
-	var L1 = "l1";
-	var U1 = "u";
-	var R1 = "r1";
-	var L2 = "l2";
-	var D1 = "d";
-	var R2 = "r2";
+	var S1 = "s1";
+	var S2 = "s2";
+	var S3 = "s3";
+	var S4 = "s4";
+	var S5 = "s5";
+	var S6 = "s6";
 
-	var L1_P = "l1-press";
-	var U1_P = "u-press";
-	var R1_P = "r1-press";
-	var L2_P = "l2-press";
-	var D1_P = "d-press";
-	var R2_P = "r2-press";
+	var S1_P = "s1-press";
+	var S2_P = "s2-press";
+	var S3_P = "s3-press";
+	var S4_P = "s4-press";
+	var S5_P = "s5-press";
+	var S6_P = "s6-press";
 
-	var L1_R = "l1-release";
-	var U1_R = "u-release";
-	var R1_R = "r1-release";
-	var L2_R = "l2-release";
-	var D1_R = "d-release";
-	var R2_R = "r2-release";
+	var S1_R = "s1_release";
+	var S2_R = "s2_release";
+	var S3_R = "s3_release";
+	var S4_R = "s4_release";
+	var S5_R = "s5_release";
+	var S6_R = "s6_release";
 
+	var T1 = "t1";
+	var T2 = "t2";
+	var T3 = "t3";
+	var T4 = "t4";
+	var T5 = "t5";
+
+	var T1_P = "t1-press";
+	var T2_P = "t2-press";
+	var T3_P = "t3-press";
+	var T4_P = "t4-press";
+	var T5_P = "t5-press";
+
+	var T1_R = "t1_release";
+	var T2_R = "t2_release";
+	var T3_R = "t3_release";
+	var T4_R = "t4_release";
+	var T5_R = "t5_release";
 
 	var N0 = "n0";
 	var N1 = "n1";
@@ -110,27 +123,44 @@ abstract Action(String) to String from String
 	var RESET = "reset";
 	var CHEAT = "cheat";
 
-	var L1 = "l1";
-	var U1 = "u";
-	var R1 = "r1";
-	var L2 = "l2";
-	var D1 = "d";
-	var R2 = "r2";
+	var S1 = "s1";
+	var S2 = "s2";
+	var S3 = "s3";
+	var S4 = "s4";
+	var S5 = "s5";
+	var S6 = "s6";
 
-	var L1_P = "l1-press";
-	var U1_P = "u-press";
-	var R1_P = "r1-press";
-	var L2_P = "l2-press";
-	var D1_P = "d-press";
-	var R2_P = "r2-press";
+	var S1_P = "s1-press";
+	var S2_P = "s2-press";
+	var S3_P = "s3-press";
+	var S4_P = "s4-press";
+	var S5_P = "s5-press";
+	var S6_P = "s6-press";
 
-	var L1_R = "l1-release";
-	var U1_R = "u-release";
-	var R1_R = "r1-release";
-	var L2_R = "l2-release";
-	var D1_R = "d-release";
-	var R2_R = "r2-release";
+	var S1_R = "s1_release";
+	var S2_R = "s2_release";
+	var S3_R = "s3_release";
+	var S4_R = "s4_release";
+	var S5_R = "s5_release";
+	var S6_R = "s6_release";
 
+	var T1 = "t1";
+	var T2 = "t2";
+	var T3 = "t3";
+	var T4 = "t4";
+	var T5 = "t5";
+
+	var T1_P = "t1-press";
+	var T2_P = "t2-press";
+	var T3_P = "t3-press";
+	var T4_P = "t4-press";
+	var T5_P = "t5-press";
+
+	var T1_R = "t1_release";
+	var T2_R = "t2_release";
+	var T3_R = "t3_release";
+	var T4_R = "t4_release";
+	var T5_R = "t5_release";
 
 	var N0 = "n0";
 	var N1 = "n1";
@@ -186,12 +216,17 @@ enum Control
 	BACK;
 	PAUSE;
 	CHEAT;
-	L1;
-	U1;
-	R1;
-	L2;
-	D1;
-	R2;
+	S1;
+	S2;
+	S3;
+	S4;
+	S5;
+	S6;
+	T1;
+	T2;
+	T3;
+	T4;
+	T5;
 	N0;
 	N1;
 	N2;
@@ -235,30 +270,49 @@ class Controls extends FlxActionSet
 	var _reset = new FlxActionDigital(Action.RESET);
 	var _cheat = new FlxActionDigital(Action.CHEAT);
 
-	var _l1 = new FlxActionDigital(Action.L1);
-	var _l1P = new FlxActionDigital(Action.L1_P);
-	var _l1R = new FlxActionDigital(Action.L1_R);
+	var _s1 = new FlxActionDigital(Action.S1);
+	var _s1P = new FlxActionDigital(Action.S1_P);
+	var _s1R = new FlxActionDigital(Action.S1_R);
 
-	var _u = new FlxActionDigital(Action.U1);
-	var _uP = new FlxActionDigital(Action.U1_P);
-	var _uR = new FlxActionDigital(Action.U1_R);
+	var _s2 = new FlxActionDigital(Action.S2);
+	var _s2P = new FlxActionDigital(Action.S2_P);
+	var _s2R = new FlxActionDigital(Action.S2_R);
 
-	var _r1 = new FlxActionDigital(Action.R1);
-	var _r1P = new FlxActionDigital(Action.R1_P);
-	var _r1R = new FlxActionDigital(Action.R1_R);
+	var _s3 = new FlxActionDigital(Action.S3);
+	var _s3P = new FlxActionDigital(Action.S3_P);
+	var _s3R = new FlxActionDigital(Action.S3_R);
 
-	var _l2 = new FlxActionDigital(Action.L2);
-	var _l2P = new FlxActionDigital(Action.L2_P);
-	var _l2R = new FlxActionDigital(Action.L2_R);
+	var _s4 = new FlxActionDigital(Action.S4);
+	var _s4P = new FlxActionDigital(Action.S4_P);
+	var _s4R = new FlxActionDigital(Action.S4_R);
 
-	var _d = new FlxActionDigital(Action.D1);
-	var _dP = new FlxActionDigital(Action.D1_P);
-	var _dR = new FlxActionDigital(Action.D1_R);
+	var _s5 = new FlxActionDigital(Action.S5);
+	var _s5P = new FlxActionDigital(Action.S5_P);
+	var _s5R = new FlxActionDigital(Action.S5_R);
 
-	var _r2 = new FlxActionDigital(Action.R2);
-	var _r2P = new FlxActionDigital(Action.R2_P);
-	var _r2R = new FlxActionDigital(Action.R2_R);
+	var _s6 = new FlxActionDigital(Action.S6);
+	var _s6P = new FlxActionDigital(Action.S6_P);
+	var _s6R = new FlxActionDigital(Action.S6_R);
 
+	var _t1 = new FlxActionDigital(Action.T1);
+	var _t1P = new FlxActionDigital(Action.T1_P);
+	var _t1R = new FlxActionDigital(Action.T1_R);
+
+	var _t2 = new FlxActionDigital(Action.T2);
+	var _t2P = new FlxActionDigital(Action.T2_P);
+	var _t2R = new FlxActionDigital(Action.T2_R);
+
+	var _t3 = new FlxActionDigital(Action.T3);
+	var _t3P = new FlxActionDigital(Action.T3_P);
+	var _t3R = new FlxActionDigital(Action.T3_R);
+
+	var _t4 = new FlxActionDigital(Action.T4);
+	var _t4P = new FlxActionDigital(Action.T4_P);
+	var _t4R = new FlxActionDigital(Action.T4_R);
+
+	var _t5 = new FlxActionDigital(Action.T5);
+	var _t5P = new FlxActionDigital(Action.T5_P);
+	var _t5R = new FlxActionDigital(Action.T5_R);
 
 	var _n0 = new FlxActionDigital(Action.N0);
 	var _n1 = new FlxActionDigital(Action.N1);
@@ -384,97 +438,83 @@ class Controls extends FlxActionSet
 	inline function get_CHEAT()
 		return _cheat.check();
 
-	public var L1(get, never):Bool;
+	public var S1(get, never):Bool;
+	public var S2(get, never):Bool;
+	public var S3(get, never):Bool;
+	public var S4(get, never):Bool;
+	public var S5(get, never):Bool;
+	public var S6(get, never):Bool;
 
-	inline function get_L1()
-		return _l1.check();
+	public var S1_P(get, never):Bool;
+	public var S2_P(get, never):Bool;
+	public var S3_P(get, never):Bool;
+	public var S4_P(get, never):Bool;
+	public var S5_P(get, never):Bool;
+	public var S6_P(get, never):Bool;
 
-	public var L1_P(get, never):Bool;
+	public var S1_R(get, never):Bool;
+	public var S2_R(get, never):Bool;
+	public var S3_R(get, never):Bool;
+	public var S4_R(get, never):Bool;
+	public var S5_R(get, never):Bool;
+	public var S6_R(get, never):Bool;
 
-	inline function get_L1_P()
-		return _l1P.check();
+	inline function get_S1() return _s1.check();
+	inline function get_S2() return _s2.check();
+	inline function get_S3() return _s3.check();
+	inline function get_S4() return _s4.check();
+	inline function get_S5() return _s5.check();
+	inline function get_S6() return _s6.check();
 
-	public var L1_R(get, never):Bool;
+	inline function get_S1_P() return _s1P.check();
+	inline function get_S2_P() return _s2P.check();
+	inline function get_S3_P() return _s3P.check();
+	inline function get_S4_P() return _s4P.check();
+	inline function get_S5_P() return _s5P.check();
+	inline function get_S6_P() return _s6P.check();
 
-	inline function get_L1_R()
-		return _l1R.check();	
+	inline function get_S1_R() return _s1R.check();
+	inline function get_S2_R() return _s2R.check();
+	inline function get_S3_R() return _s3R.check();
+	inline function get_S4_R() return _s4R.check();
+	inline function get_S5_R() return _s5R.check();
+	inline function get_S6_R() return _s6R.check();
 
-	public var D1(get, never):Bool;
+	public var T1(get, never):Bool;
+	public var T2(get, never):Bool;
+	public var T3(get, never):Bool;
+	public var T4(get, never):Bool;
+	public var T5(get, never):Bool;
 
-	inline function get_D1()
-		return _d.check();
+	public var T1_P(get, never):Bool;
+	public var T2_P(get, never):Bool;
+	public var T3_P(get, never):Bool;
+	public var T4_P(get, never):Bool;
+	public var T5_P(get, never):Bool;
 
-	public var D1_P(get, never):Bool;
+	public var T1_R(get, never):Bool;
+	public var T2_R(get, never):Bool;
+	public var T3_R(get, never):Bool;
+	public var T4_R(get, never):Bool;
+	public var T5_R(get, never):Bool;
 
-	inline function get_D1_P()
-		return _dP.check();
+	inline function get_T1() return _t1.check();
+	inline function get_T2() return _t2.check();
+	inline function get_T3() return _t3.check();
+	inline function get_T4() return _t4.check();
+	inline function get_T5() return _t5.check();
 
-	public var D1_R(get, never):Bool;
+	inline function get_T1_P() return _t1P.check();
+	inline function get_T2_P() return _t2P.check();
+	inline function get_T3_P() return _t3P.check();
+	inline function get_T4_P() return _t4P.check();
+	inline function get_T5_P() return _t5P.check();
 
-	inline function get_D1_R()
-		return _dR.check();
-
-	public var R1(get, never):Bool;
-
-	inline function get_R1()
-		return _r1.check();
-
-	public var R1_P(get, never):Bool;
-
-	inline function get_R1_P()
-		return _r1P.check();
-
-	public var R1_R(get, never):Bool;
-
-	inline function get_R1_R()
-		return _r1R.check();	
-
-
-	public var L2(get, never):Bool;
-
-	inline function get_L2()
-		return _l2.check();
-
-	public var L2_P(get, never):Bool;
-
-	inline function get_L2_P()
-		return _l2P.check();
-
-	public var L2_R(get, never):Bool;
-
-	inline function get_L2_R()
-		return _l2R.check();	
-
-	public var U1(get, never):Bool;
-
-	inline function get_U1()
-		return _u.check();
-
-	public var U1_P(get, never):Bool;
-
-	inline function get_U1_P()
-		return _uP.check();
-
-	public var U1_R(get, never):Bool;
-
-	inline function get_U1_R()
-		return _uR.check();
-
-	public var R2(get, never):Bool;
-
-	inline function get_R2()
-		return _r2.check();
-
-	public var R2_P(get, never):Bool;
-
-	inline function get_R2_P()
-		return _r2P.check();
-
-	public var R2_R(get, never):Bool;
-
-	inline function get_R2_R()
-		return _r2R.check();
-
+	inline function get_T1_R() return _t1R.check();
+	inline function get_T2_R() return _t2R.check();
+	inline function get_T3_R() return _t3R.check();
+	inline function get_T4_R() return _t4R.check();
+	inline function get_T5_R() return _t5R.check();
 
 	public var N0(get, never):Bool;
 	public var N1(get, never):Bool;
@@ -559,26 +599,44 @@ class Controls extends FlxActionSet
 		add(_reset);
 		add(_cheat);
 
-		add(_l1);
-		add(_l1P);
-		add(_l1R);
-		add(_d);
-		add(_dP);
-		add(_dR);
-		add(_r1);
-		add(_r1P);
-		add(_r1R);
+		add(_s1);
+		add(_s2);
+		add(_s3);
+		add(_s4);
+		add(_s5);
+		add(_s6);
 
-		add(_l2);
-		add(_l2P);
-		add(_l2R);
-		add(_u);
-		add(_uP);
-		add(_uR);
-		add(_r2);
-		add(_r2P);
-		add(_r2R);
+		add(_s1P);
+		add(_s2P);
+		add(_s3P);
+		add(_s4P);
+		add(_s5P);
+		add(_s6P);
 
+		add(_s1R);
+		add(_s2R);
+		add(_s3R);
+		add(_s4R);
+		add(_s5R);
+		add(_s6R);
+
+		add(_t1);
+		add(_t2);
+		add(_t3);
+		add(_t4);
+		add(_t5);
+
+		add(_t1P);
+		add(_t2P);
+		add(_t3P);
+		add(_t4P);
+		add(_t5P);
+
+		add(_t1R);
+		add(_t2R);
+		add(_t3R);
+		add(_t4R);
+		add(_t5R);
 
 		add(_n0);
 		add(_n1);
@@ -638,26 +696,44 @@ class Controls extends FlxActionSet
 		add(_reset);
 		add(_cheat);
 
-		add(_l1);
-		add(_l1P);
-		add(_l1R);
-		add(_d);
-		add(_dP);
-		add(_dR);
-		add(_r1);
-		add(_r1P);
-		add(_r1R);
+		add(_s1);
+		add(_s2);
+		add(_s3);
+		add(_s4);
+		add(_s5);
+		add(_s6);
 
-		add(_l2);
-		add(_l2P);
-		add(_l2R);
-		add(_u);
-		add(_uP);
-		add(_uR);
-		add(_r2);
-		add(_r2P);
-		add(_r2R);
+		add(_s1P);
+		add(_s2P);
+		add(_s3P);
+		add(_s4P);
+		add(_s5P);
+		add(_s6P);
 
+		add(_s1R);
+		add(_s2R);
+		add(_s3R);
+		add(_s4R);
+		add(_s5R);
+		add(_s6R);
+
+		add(_t1);
+		add(_t2);
+		add(_t3);
+		add(_t4);
+		add(_t5);
+
+		add(_t1P);
+		add(_t2P);
+		add(_t3P);
+		add(_t4P);
+		add(_t5P);
+
+		add(_t1R);
+		add(_t2R);
+		add(_t3R);
+		add(_t4R);
+		add(_t5R);
 
 		add(_n0);
 		add(_n1);
@@ -689,111 +765,12 @@ class Controls extends FlxActionSet
 		add(_n7R);
 		add(_n8R);
 
-
 		for (action in digitalActions)
 			byName[action.name] = action;
 			
 		if (scheme == null)
 			scheme = None;
 		setKeyboardScheme(scheme, false);
-	}
-	#end
-	
-	public var trackedinputs:Array<FlxActionInput> = [];
-
-	public function addbutton(action:FlxActionDigital, button:FlxButton, state:FlxInputState) {
-		var input = new FlxActionInputDigitalIFlxInput(button, state);
-		trackedinputs.push(input);
-		
-		action.add(input);
-		//action.addInput(button, state);
-	}
-	
-	public function setHitBox(hitbox:Hitbox) 
-	{
-		inline forEachBound(Control.UP, (action, state) -> addbutton(action, hitbox.buttonUp, state));
-		inline forEachBound(Control.DOWN, (action, state) -> addbutton(action, hitbox.buttonDown, state));
-		inline forEachBound(Control.LEFT, (action, state) -> addbutton(action, hitbox.buttonLeft, state));
-		inline forEachBound(Control.RIGHT, (action, state) -> addbutton(action, hitbox.buttonRight, state));	
-	}
-
-	
-	public function setVirtualPad(virtualPad:FlxVirtualPad, ?DPad:FlxDPadMode, ?Action:FlxActionMode) {
-		if (DPad == null)
-			DPad = NONE;
-		if (Action == null)
-			Action = NONE;
-		
-		switch (DPad)
-		{
-			case UP_DOWN:
-				inline forEachBound(Control.UP, (action, state) -> addbutton(action, virtualPad.buttonUp, state));
-				inline forEachBound(Control.DOWN, (action, state) -> addbutton(action, virtualPad.buttonDown, state));
-			case LEFT_RIGHT:
-				inline forEachBound(Control.LEFT, (action, state) -> addbutton(action, virtualPad.buttonLeft, state));
-				inline forEachBound(Control.RIGHT, (action, state) -> addbutton(action, virtualPad.buttonRight, state));
-			case UP_LEFT_RIGHT:
-				inline forEachBound(Control.UP, (action, state) -> addbutton(action, virtualPad.buttonUp, state));
-				inline forEachBound(Control.LEFT, (action, state) -> addbutton(action, virtualPad.buttonLeft, state));
-				inline forEachBound(Control.RIGHT, (action, state) -> addbutton(action, virtualPad.buttonRight, state));
-			case FULL | RIGHT_FULL:
-				inline forEachBound(Control.UP, (action, state) -> addbutton(action, virtualPad.buttonUp, state));
-				inline forEachBound(Control.DOWN, (action, state) -> addbutton(action, virtualPad.buttonDown, state));
-				inline forEachBound(Control.LEFT, (action, state) -> addbutton(action, virtualPad.buttonLeft, state));
-				inline forEachBound(Control.RIGHT, (action, state) -> addbutton(action, virtualPad.buttonRight, state));
-			
-			case NONE:
-		}
-
-		switch (Action)
-		{
-			case A:
-				inline forEachBound(Control.ACCEPT, (action, state) -> addbutton(action, virtualPad.buttonA, state));
-			case A_B:
-				inline forEachBound(Control.ACCEPT, (action, state) -> addbutton(action, virtualPad.buttonA, state));
-				inline forEachBound(Control.BACK, (action, state) -> addbutton(action, virtualPad.buttonB, state));
-			case A_B_C:
-				inline forEachBound(Control.ACCEPT, (action, state) -> addbutton(action, virtualPad.buttonA, state));
-				inline forEachBound(Control.BACK, (action, state) -> addbutton(action, virtualPad.buttonB, state));
-			case A_B_X_Y:
-				inline forEachBound(Control.ACCEPT, (action, state) -> addbutton(action, virtualPad.buttonA, state));
-				inline forEachBound(Control.BACK, (action, state) -> addbutton(action, virtualPad.buttonB, state));
-			case NONE:
-		}
-	}
-	
-
-	public function removeFlxInput(Tinputs) {
-		for (action in this.digitalActions)
-		{
-			var i = action.inputs.length;
-			
-			while (i-- > 0)
-			{
-				var input = action.inputs[i];
-				/*if (input.device == IFLXINPUT_OBJECT)
-					action.remove(input);*/
-
-				var x = Tinputs.length;
-				while (x-- > 0)
-					if (Tinputs[x] == input)
-						action.remove(input);
-			}
-		}
-	}
-	
-
-	
-	#if android
-	public function addAndroidBack() {
-		// fix this later
-
-		/*
-		var BACK = #if (openfl >= "8.0.0") 0x4000010E #else 27 #end;
-		_back.addKey(BACK, JUST_RELEASED);
-		_back.addKey(BACK, JUST_PRESSED);
-		_back.addKey(BACK, PRESSED);
-		*/
 	}
 	#end
 
@@ -842,12 +819,18 @@ class Controls extends FlxActionSet
 			case RESET: _reset;
 			case CHEAT: _cheat;
 
-			case L1: _l1;
-			case D1: _d;
-			case R1: _r1;
-			case L2: _l2;
-			case U1: _u;
-			case R2: _r2;
+			case S1: _s1;
+			case S2: _s2;
+			case S3: _s3;
+			case S4: _s4;
+			case S5: _s5;
+			case S6: _s6;
+
+			case T1: _t1;
+			case T2: _t2;
+			case T3: _t3;
+			case T4: _t4;
+			case T5: _t5;
 
 			case N0: _n0;
 			case N1: _n1;
@@ -903,31 +886,52 @@ class Controls extends FlxActionSet
 				func(_reset, JUST_PRESSED);
 			case CHEAT:
 				func(_cheat, JUST_PRESSED);
+		
+			case S1:
+				func(_s1, PRESSED);
+				func(_s1P, JUST_PRESSED);
+				func(_s1R, JUST_RELEASED);
+			case S2:
+				func(_s2, PRESSED);
+				func(_s2P, JUST_PRESSED);
+				func(_s2R, JUST_RELEASED);
+			case S3:
+				func(_s3, PRESSED);
+				func(_s3P, JUST_PRESSED);
+				func(_s3R, JUST_RELEASED);
+			case S4:
+				func(_s4, PRESSED);
+				func(_s4P, JUST_PRESSED);
+				func(_s4R, JUST_RELEASED);
+			case S5:
+				func(_s5, PRESSED);
+				func(_s5P, JUST_PRESSED);
+				func(_s5R, JUST_RELEASED);
+			case S6:
+				func(_s6, PRESSED);
+				func(_s6P, JUST_PRESSED);
+				func(_s6R, JUST_RELEASED);
 
-			case L1:
-				func(_l1, PRESSED);
-				func(_l1P, JUST_PRESSED);
-				func(_l1R, JUST_RELEASED);
-			case U1:
-				func(_u, PRESSED);
-				func(_uP, JUST_PRESSED);
-				func(_uR, JUST_RELEASED);
-			case R1:
-				func(_r1, PRESSED);
-				func(_r1P, JUST_PRESSED);
-				func(_r1R, JUST_RELEASED);
-			case L2:
-				func(_l2, PRESSED);
-				func(_l2P, JUST_PRESSED);
-				func(_l2R, JUST_RELEASED);
-			case D1:
-				func(_d, PRESSED);
-				func(_dP, JUST_PRESSED);
-				func(_dR, JUST_RELEASED);
-			case R2:
-				func(_r2, PRESSED);
-				func(_r2P, JUST_PRESSED);
-				func(_r2R, JUST_RELEASED);
+			case T1:
+				func(_t1, PRESSED);
+				func(_t1P, JUST_PRESSED);
+				func(_t1R, JUST_RELEASED);
+			case T2:
+				func(_t2, PRESSED);
+				func(_t2P, JUST_PRESSED);
+				func(_t2R, JUST_RELEASED);
+			case T3:
+				func(_t3, PRESSED);
+				func(_t3P, JUST_PRESSED);
+				func(_t3R, JUST_RELEASED);
+			case T4:
+				func(_t4, PRESSED);
+				func(_t4P, JUST_PRESSED);
+				func(_t4R, JUST_RELEASED);
+			case T5:
+				func(_t5, PRESSED);
+				func(_t5P, JUST_PRESSED);
+				func(_t5R, JUST_RELEASED);
 
 			case N0:
 				func(_n0, PRESSED);
@@ -1099,97 +1103,30 @@ class Controls extends FlxActionSet
 
 	public function setKeyboardScheme(scheme:KeyboardScheme, reset = true)
 	{
-
 		loadKeyBinds();
 
-		/*bindKeys(Control.N0, [A]);
-		bindKeys(Control.N1, [S]);
-		bindKeys(Control.N2, [D]);
-		bindKeys(Control.N3, [F]);
-		bindKeys(Control.N4, [FlxKey.SPACE]);
-		bindKeys(Control.N5, [H]);
-		bindKeys(Control.N6, [J]);
-		bindKeys(Control.N7, [K]);
-		bindKeys(Control.N8, [L]);
+		inline bindKeys(Control.N0, [A]);
+		inline bindKeys(Control.N1, [S]);
+		inline bindKeys(Control.N2, [D]);
+		inline bindKeys(Control.N3, [F]);
+		inline bindKeys(Control.N4, [FlxKey.SPACE]);
+		inline bindKeys(Control.N5, [H]);
+		inline bindKeys(Control.N6, [J]);
+		inline bindKeys(Control.N7, [K]);
+		inline bindKeys(Control.N8, [L]);
 
-		bindKeys(Control.L1, [S]);
-		bindKeys(Control.U1, [D]);
-		bindKeys(Control.R1, [F]);
-		bindKeys(Control.L2, [J]);
-	 	bindKeys(Control.D1, [K]);
-		bindKeys(Control.R2, [L]);
-		/*if (reset)
-			removeKeyboard();
+		inline bindKeys(Control.S1, [S]);
+		inline bindKeys(Control.S2, [D]);
+		inline bindKeys(Control.S3, [F]);
+		inline bindKeys(Control.S4, [J]);
+		inline bindKeys(Control.S5, [K]);
+		inline bindKeys(Control.S6, [L]);
 
-		keyboardScheme = scheme;
-		
-		#if (haxe >= "4.0.0")
-		switch (scheme)
-		{
-			case Solo:
-				inline bindKeys(Control.UP, [FlxKey.fromString("W"), FlxKey.UP]);
-				inline bindKeys(Control.DOWN, [FlxKey.fromString("S"), FlxKey.DOWN]);
-				inline bindKeys(Control.LEFT, [FlxKey.fromString("A"), FlxKey.LEFT]);
-				inline bindKeys(Control.RIGHT, [FlxKey.fromString("D"), FlxKey.RIGHT]);
-				inline bindKeys(Control.ACCEPT, [Z, SPACE, ENTER]);
-				inline bindKeys(Control.BACK, [BACKSPACE, ESCAPE]);
-				inline bindKeys(Control.PAUSE, [P, ENTER, ESCAPE]);
-				inline bindKeys(Control.RESET, [FlxKey.fromString("R")]);
-			case Duo(true):
-				inline bindKeys(Control.UP, [W, K]);
-				inline bindKeys(Control.DOWN, [S, J]);
-				inline bindKeys(Control.LEFT, [A, H]);
-				inline bindKeys(Control.RIGHT, [D, L]);
-				inline bindKeys(Control.ACCEPT, [Z]);
-				inline bindKeys(Control.BACK, [X]);
-				inline bindKeys(Control.PAUSE, [ONE]);
-				inline bindKeys(Control.RESET, [R]);
-			case Duo(false):
-				inline bindKeys(Control.UP, [FlxKey.UP]);
-				inline bindKeys(Control.DOWN, [FlxKey.DOWN]);
-				inline bindKeys(Control.LEFT, [FlxKey.LEFT]);
-				inline bindKeys(Control.RIGHT, [FlxKey.RIGHT]);
-				inline bindKeys(Control.ACCEPT, [O]);
-				inline bindKeys(Control.BACK, [P]);
-				inline bindKeys(Control.PAUSE, [ENTER]);
-				inline bindKeys(Control.RESET, [BACKSPACE]);
-			case None: // nothing
-			case Custom: // nothing
-		}
-		#else
-		switch (scheme)
-		{
-			case Solo:
-				bindKeys(Control.UP, [W, K, FlxKey.UP]);
-				bindKeys(Control.DOWN, [S, J, FlxKey.DOWN]);
-				bindKeys(Control.LEFT, [A, H, FlxKey.LEFT]);
-				bindKeys(Control.RIGHT, [D, L, FlxKey.RIGHT]);
-				bindKeys(Control.ACCEPT, [Z, SPACE, ENTER]);
-				bindKeys(Control.BACK, [BACKSPACE, ESCAPE]);
-				bindKeys(Control.PAUSE, [P, ENTER, ESCAPE]);
-				bindKeys(Control.RESET, [R]);
-			case Duo(true):
-				bindKeys(Control.UP, [W, K]);
-				bindKeys(Control.DOWN, [S, J]);
-				bindKeys(Control.LEFT, [A, H]);
-				bindKeys(Control.RIGHT, [D, L]);
-				bindKeys(Control.ACCEPT, [Z]);
-				bindKeys(Control.BACK, [X]);
-				bindKeys(Control.PAUSE, [ONE]);
-				bindKeys(Control.RESET, [R]);
-			case Duo(false):
-				bindKeys(Control.UP, [FlxKey.UP]);
-				bindKeys(Control.DOWN, [FlxKey.DOWN]);
-				bindKeys(Control.LEFT, [FlxKey.LEFT]);
-				bindKeys(Control.RIGHT, [FlxKey.RIGHT]);
-				bindKeys(Control.ACCEPT, [O]);
-				bindKeys(Control.BACK, [P]);
-				bindKeys(Control.PAUSE, [ENTER]);
-				bindKeys(Control.RESET, [BACKSPACE]);
-			case None: // nothing
-			case Custom: // nothing
-		}
-		#end*/
+		inline bindKeys(Control.T1, [D]);
+		inline bindKeys(Control.T2, [F]);
+		inline bindKeys(Control.T3, [FlxKey.SPACE]);
+		inline bindKeys(Control.T4, [J]);
+		inline bindKeys(Control.T5, [K]);
 	}
 
 	public function loadKeyBinds()
@@ -1198,6 +1135,7 @@ class Controls extends FlxActionSet
 		//trace(FlxKey.fromString(FlxG.save.data.upBind));
 
 		removeKeyboard();
+		KeyBinds.keyCheck();
 	
 		inline bindKeys(Control.UP, [FlxKey.fromString(FlxG.save.data.upBind), FlxKey.UP]);
 		inline bindKeys(Control.DOWN, [FlxKey.fromString(FlxG.save.data.downBind), FlxKey.DOWN]);
@@ -1207,23 +1145,6 @@ class Controls extends FlxActionSet
 		inline bindKeys(Control.BACK, [BACKSPACE, ESCAPE]);
 		inline bindKeys(Control.PAUSE, [P, ENTER, ESCAPE]);
 		inline bindKeys(Control.RESET, [FlxKey.fromString(FlxG.save.data.killBind)]);
-
-		inline bindKeys(Control.N0, [FlxKey.fromString(FlxG.save.data.N0Bind)]);
-		inline bindKeys(Control.N1, [FlxKey.fromString(FlxG.save.data.N1Bind)]);
-		inline bindKeys(Control.N2, [FlxKey.fromString(FlxG.save.data.N2Bind)]);
-		inline bindKeys(Control.N3, [FlxKey.fromString(FlxG.save.data.N3Bind)]);
-		inline bindKeys(Control.N4, [FlxKey.fromString(FlxG.save.data.N4Bind)]);
-		inline bindKeys(Control.N5, [FlxKey.fromString(FlxG.save.data.N5Bind)]);
-		inline bindKeys(Control.N6, [FlxKey.fromString(FlxG.save.data.N6Bind)]);
-		inline bindKeys(Control.N7, [FlxKey.fromString(FlxG.save.data.N7Bind)]);
-		inline bindKeys(Control.N8, [FlxKey.fromString(FlxG.save.data.N8Bind)]);
-
-		inline bindKeys(Control.L1, [FlxKey.fromString(FlxG.save.data.L1Bind)]);
-		inline bindKeys(Control.U1, [FlxKey.fromString(FlxG.save.data.U1Bind)]);
-		inline bindKeys(Control.R1, [FlxKey.fromString(FlxG.save.data.R1Bind)]);
-		inline bindKeys(Control.L2, [FlxKey.fromString(FlxG.save.data.L2Bind)]);
-		inline bindKeys(Control.D1, [FlxKey.fromString(FlxG.save.data.D1Bind)]);
-		inline bindKeys(Control.R2, [FlxKey.fromString(FlxG.save.data.R2Bind)]);
 	}
 
 	function removeKeyboard()

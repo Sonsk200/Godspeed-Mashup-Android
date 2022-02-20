@@ -29,7 +29,7 @@ class MansionDebris extends FlxSprite
 		tF = tFactor;
 		tD = tDelay;
 		pF = posFactor;
-		frames = Paths.getSparrowAtlas('god_bg');
+		frames = Paths.getSparrowAtlas('shaggy/god_bg');
 		animation.addByPrefix('c', "deb_" + debName, 30);
 		//bgcloud.setGraphicSize(Std.int(bgcloud.width * 0.8));
 		animation.play('c');

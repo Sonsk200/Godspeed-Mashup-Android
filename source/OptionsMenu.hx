@@ -1,6 +1,5 @@
 package;
 
-import flixel.input.gamepad.FlxGamepad;
 import flixel.tweens.FlxEase;
 import flixel.tweens.FlxTween;
 import openfl.Lib;
@@ -25,53 +24,43 @@ class OptionsMenu extends MusicBeatState
 	var curSelected:Int = 0;
 
 	var options:Array<OptionCategory> = [
-		new OptionCategory("Mod Specific", [
-			new OldTimings("Old Hit timings from KE 1.4.2"),
-			new ColoredTypes("Change if different Note Types change color based on position."),
-			new Popups("Turn on or off Popup Images")
-
-
-		]),
 		new OptionCategory("Gameplay", [
 			new DFJKOption(controls),
-			new NineKeyOption(controls),
 			new DownscrollOption("Change the layout of the strumline."),
 			new GhostTapOption("Ghost Tapping is when you tap a direction and it doesn't give you a miss."),
-			new Grace("Turn off the Grace timer for the real chad input"),
-			#if desktop		
 			new Judgement("Customize your Hit Timings (LEFT or RIGHT)"),
+			#if desktop
 			new FPSCapOption("Cap your FPS"),
+			#end
 			new ScrollSpeedOption("Change your scroll speed (1 = Chart dependent)"),
-			#end			
-			new InstantRespawn("Toggle if you instantly respawn after dying."),
 			new AccuracyDOption("Change how accuracy is calculated. (Accurate = Simple, Complex = Milisecond Based)"),
-			new ResetButtonOption("Toggle pressing R to gameover."),
 			// new OffsetMenu("Get a note offset based off of your inputs!"),
-			new CustomizeGameplay("Drag'n'Drop Gameplay Modules around to your preference")
 		]),
 		new OptionCategory("Appearance", [
-			new DistractionsAndEffectsOption("Toggle stage distractions that can hinder your gameplay."),
 			new CamZoomOption("Toggle the camera zoom in-game."),
+			new FlashingLightsOption("Toggle flashing lights that can cause epileptic seizures and strain."),
+			new NoteSplashOption("Have the static notes flash when you hit ."),
+			#if desktop
 			new RainbowFPSOption("Make the FPS Counter Rainbow"),
 			new AccuracyOption("Display accuracy information."),
 			new NPSDisplayOption("Shows your current Notes Per Second."),
 			new SongPositionOption("Show the songs current position (as a bar)"),
-			new CpuStrums("CPU's strumline lights up when a note hits it.")
+			#end
+		]),
+
+		new OptionCategory("BETADCIU", [
+			#if desktop
+			new NoStageChange("Stage Switching for BETADCIUs with Stage Switching Compatibility")
+			#end
 		]),
 		
 		new OptionCategory("Misc", [
+			#if desktop
 			new FPSOption("Toggle the FPS Counter"),
-			new FlashingLightsOption("Toggle flashing lights that can cause epileptic seizures and strain."),
+			new ReplayOption("View replays"),
+			#end
 			new WatermarkOption("Enable and disable all watermarks from the engine."),
-			new AntialiasingOption("Toggle antialiasing, improving graphics quality at a slight performance penalty."),
-			new ScoreScreen("Show the score screen after the end of a song"),
-			new ShowInput("Display every single input in the score screen."),
-			new Optimization("No backgrounds, no characters, centered notes, no player 2."),
-			new BotPlay("Showcase your charts and mods with autoplay."),
-		]),
-		new OptionCategory("Saves and Data", [
-			new ResetScoreOption("Reset your score on all songs and weeks. This is irreversible!"),
-			new ResetSettings("Reset ALL your settings. This is irreversible!")
+			new BotPlay("Showcase your charts and mods with autoplay.")
 		])
 		
 	];
@@ -123,10 +112,6 @@ class OptionsMenu extends MusicBeatState
 
 		FlxTween.tween(versionShit,{y: FlxG.height - 18},2,{ease: FlxEase.elasticInOut});
 		FlxTween.tween(blackBorder,{y: FlxG.height - 18},2, {ease: FlxEase.elasticInOut});
-		
-		#if mobileC
-		addVirtualPad(UP_DOWN, A_B);
-		#end		
 
 		super.create();
 	}
@@ -159,23 +144,6 @@ class OptionsMenu extends MusicBeatState
 				
 				changeSelection(curSelected);
 			}
-
-			var gamepad:FlxGamepad = FlxG.gamepads.lastActive;
-
-			if (gamepad != null)
-			{
-				if (gamepad.justPressed.DPAD_UP)
-				{
-					FlxG.sound.play(Paths.sound('scrollMenu'));
-					changeSelection(-1);
-				}
-				if (gamepad.justPressed.DPAD_DOWN)
-				{
-					FlxG.sound.play(Paths.sound('scrollMenu'));
-					changeSelection(1);
-				}
-			}
-			
 			if (controls.UP_P)
 				changeSelection(-1);
 			if (controls.DOWN_P)
@@ -247,8 +215,10 @@ class OptionsMenu extends MusicBeatState
 				if (isCat)
 				{
 					if (currentSelectedCat.getOptions()[curSelected].press()) {
-						grpControls.members[curSelected].reType(currentSelectedCat.getOptions()[curSelected].getDisplay());
-						trace(currentSelectedCat.getOptions()[curSelected].getDisplay());
+						grpControls.remove(grpControls.members[curSelected]);
+						var ctrl:Alphabet = new Alphabet(0, (70 * curSelected) + 30, currentSelectedCat.getOptions()[curSelected].getDisplay(), true, false);
+						ctrl.isMenuItem = true;
+						grpControls.add(ctrl);
 					}
 				}
 				else
@@ -267,7 +237,7 @@ class OptionsMenu extends MusicBeatState
 					curSelected = 0;
 				}
 				
-				changeSelection();
+				changeSelection(curSelected);
 			}
 		}
 		FlxG.save.flush();

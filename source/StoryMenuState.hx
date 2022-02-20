@@ -1,6 +1,5 @@
 package;
 
-import flixel.input.gamepad.FlxGamepad;
 import flixel.FlxG;
 import flixel.FlxSprite;
 import flixel.addons.transition.FlxTransitionableState;
@@ -25,18 +24,17 @@ class StoryMenuState extends MusicBeatState
 	var scoreText:FlxText;
 
 	var weekData:Array<Dynamic> = [
-		['Bopeebo'],
+		['Tutorial'],
 		['Bopeebo', 'Fresh', 'Dad Battle'],
 		['Spookeez', 'South', "Monster"],
 		['Pico', 'Philly Nice', "Blammed"],
 		['Satin Panties', "High", "Milf"],
 		['Cocoa', 'Eggnog', 'Winter Horrorland'],
-		['Senpai', 'Roses', 'Thorns'],
-		['GodSpeed', 'Where-Are-You']
+		['Senpai', 'Roses', 'Thorns']
 	];
 	var curDifficulty:Int = 1;
 
-	public static var weekUnlocked:Array<Bool> = [true, true, true, true, true, true, true, true];
+	public static var weekUnlocked:Array<Bool> = [true, true, true, true, true, true, true];
 
 	var weekCharacters:Array<Dynamic> = [
 		['', 'bf', 'gf'],
@@ -45,8 +43,7 @@ class StoryMenuState extends MusicBeatState
 		['pico', 'bf', 'gf'],
 		['mom', 'bf', 'gf'],
 		['parents-christmas', 'bf', 'gf'],
-		['senpai', 'bf', 'gf'],
-		['', 'bf', 'gf']
+		['senpai', 'bf', 'gf']
 	];
 
 	var weekNames:Array<String> = [
@@ -56,8 +53,7 @@ class StoryMenuState extends MusicBeatState
 		"PICO",
 		"MOMMY MUST MURDER",
 		"RED SNOW",
-		"Hating Simulator ft. Moawling",
-		"why the fuck is adding songs sometimes so broken"
+		"Hating Simulator ft. Moawling"
 	];
 
 	var txtWeekTitle:FlxText;
@@ -226,44 +222,12 @@ class StoryMenuState extends MusicBeatState
 		{
 			if (!selectedWeek)
 			{
-				var gamepad:FlxGamepad = FlxG.gamepads.lastActive;
-
-				if (gamepad != null)
-				{
-					if (gamepad.justPressed.DPAD_UP)
-					{
-						changeWeek(-1);
-					}
-					if (gamepad.justPressed.DPAD_DOWN)
-					{
-						changeWeek(1);
-					}
-
-					if (gamepad.pressed.DPAD_RIGHT)
-						rightArrow.animation.play('press')
-					else
-						rightArrow.animation.play('idle');
-					if (gamepad.pressed.DPAD_LEFT)
-						leftArrow.animation.play('press');
-					else
-						leftArrow.animation.play('idle');
-
-					if (gamepad.justPressed.DPAD_RIGHT)
-					{
-						changeDifficulty(1);
-					}
-					if (gamepad.justPressed.DPAD_LEFT)
-					{
-						changeDifficulty(-1);
-					}
-				}
-
-				if (FlxG.keys.justPressed.UP)
+				if (controls.UP_P)
 				{
 					changeWeek(-1);
 				}
 
-				if (FlxG.keys.justPressed.DOWN)
+				if (controls.DOWN_P)
 				{
 					changeWeek(1);
 				}
@@ -332,11 +296,7 @@ class StoryMenuState extends MusicBeatState
 			}
 
 			var poop:String = Highscore.formatSong(songFormat, curDifficulty);
-			PlayState.sicks = 0;
-			PlayState.bads = 0;
-			PlayState.shits = 0;
-			PlayState.goods = 0;
-			PlayState.campaignMisses = 0;
+
 			PlayState.SONG = Song.loadFromJson(poop, PlayState.storyPlaylist[0]);
 			PlayState.storyWeek = curWeek;
 			PlayState.campaignScore = 0;

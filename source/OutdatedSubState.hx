@@ -88,7 +88,7 @@ class OutdatedSubState extends MusicBeatState
 		{
 			fancyOpenURL("https://kadedev.github.io/Kade-Engine/changelogs/changelog-" + needVer);
 		}
-		if (controls.BACK#if mobile || FlxG.touches.justStarted().length>0 #end)
+		if (controls.BACK)
 		{
 			leftState = true;
 			FlxG.switchState(new MainMenuState());
